@@ -1,12 +1,12 @@
-var express = require("express");
-var path = require("path");
-var cookieParser = require("cookie-parser");
-var logger = require("morgan");
+const express = require("express");
+const path = require("path");
+const cookieParser = require("cookie-parser");
+const logger = require("morgan");
 
-var indexRouter = require("./routes/index");
-var catsRouter = require("./routes/cats");
+const indexRouter = require("./routes/index");
+const catsRouter = require("./routes/cats");
 
-var app = express();
+const app = express();
 
 const attemptMongooseConnection = require("./mongoose/setup");
 
@@ -17,6 +17,17 @@ const mongoDbPort = 27017;
 const mongoDbName = "some-db";
 
 attemptMongooseConnection(mongoDbHost, mongoDbPort, mongoDbName);
+
+// resolve CORS error(s) so React can call server with different HTTP methods during development
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  res.header("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
+  next();
+});
 
 app.use(logger("dev"));
 app.use(express.json());

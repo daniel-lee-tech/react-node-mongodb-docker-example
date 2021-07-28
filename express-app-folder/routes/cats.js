@@ -1,16 +1,11 @@
-var express = require("express");
-var router = express.Router();
+const express = require("express");
+const router = express.Router();
 
-var Cat = require("../mongoose/models/Cat");
+const Cat = require("../mongoose/models/Cat");
 
 router.get("/", async function (req, res, next) {
   const allCats = await Cat.find({});
   res.send(allCats);
-});
-
-router.get("/adopted", async function (req, res, next) {
-  const adoptedCats = await Cat.getAdoptedKitties();
-  res.send(adoptedCats);
 });
 
 router.post("/", function (req, res, send) {

@@ -1,23 +1,30 @@
-import logo from "./logo.svg";
-import "./App.css";
+import AddCat from "./components/AddCat";
+import { getAllCats } from "./apiCalls/cats";
+import { Cat } from "./components/Cat";
+import { useEffect, useState } from "react";
 
 function App() {
+  const [allCats, setAllCats] = useState([]);
+
+  function updateAllCats() {
+    getAllCats().then((response) => setAllCats(response));
+  }
+
+  useEffect(() => {
+    updateAllCats();
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div>
+        <h2>All Cats</h2>
+        <div>
+          {allCats.map((cat) => (
+            <Cat key={cat._id} cat={cat} updateAllCats={updateAllCats} />
+          ))}
+        </div>
+      </div>
+      <AddCat updateAllCats={updateAllCats} />
     </div>
   );
 }
