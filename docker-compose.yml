@@ -1,0 +1,31 @@
+version: "3.8"
+services:
+  react-app:
+    container_name: react-app-container-name
+    build: ./react-app-folder
+    volumes:
+      - ./react-app-folder:/usr/src/app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - express-app
+
+  express-app:
+    container_name: express-app-container-name
+    build: ./express-app-folder
+    volumes:
+      - ./express-app-folder:/usr/src/app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mongodb
+    links:
+      - mongodb
+
+  mongodb:
+    container_name: mongodb-container-name
+    image: mongo
+    volumes:
+      - ./db:/data/db
+    ports:
+      - "27017:27017"
