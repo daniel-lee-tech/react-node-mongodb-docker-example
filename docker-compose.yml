@@ -1,10 +1,9 @@
-version: "3.8"
 services:
   react-app:
     container_name: react-app-container-name
     build: ./react-app-folder
-    volumes:
-      - ./react-app-folder:/usr/src/app
+    # volumes:
+    #   - ./react-app-folder:/app
     ports:
       - "3000:3000"
     depends_on:
@@ -13,8 +12,8 @@ services:
   express-app:
     container_name: express-app-container-name
     build: ./express-app-folder
-    volumes:
-      - ./express-app-folder:/usr/src/app
+    # volumes:
+    #   - ./express-app-folder:/app
     ports:
       - "8080:8080"
     depends_on:
@@ -24,7 +23,8 @@ services:
 
   mongodb:
     container_name: mongodb-container-name
-    image: mongo
+    # use specific mongo verion in production
+    image: mongo:latest
     volumes:
       - ./db:/data/db
     ports:
